@@ -102,10 +102,10 @@ We reused custom_rasterizer and differentiable_renderer tools in [Hunyuan3D 2.0]
 
 ## 5. Inference script
 
-|                                                  | VRAM Usage | Time for 50 steps |
-| ------------------------------------------------ | ---------- | ----------------- |
-| Step1X-3D-Geometry-1300m+Step1X-3D-Texture       | 27G        | 152 seconds       |
-| Step1X-3D-Geometry-Label-1300m+Step1X-3D-Texture | 29G        | 152 seconds       |
+|                                                  | GPU Memory Usage | Time for 50 steps |
+| ------------------------------------------------ | ---------------- | ----------------- |
+| Step1X-3D-Geometry-1300m+Step1X-3D-Texture       | 27G              | 152 seconds       |
+| Step1X-3D-Geometry-Label-1300m+Step1X-3D-Texture | 29G              | 152 seconds       |
 
 We porvide the following example codes as tutorial to sequentially generate geometry and texture.
 ```python
