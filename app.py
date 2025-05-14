@@ -75,9 +75,7 @@ if __name__ == "__main__":
         gr.Markdown("# Step1X-3D")
         with gr.Row():
             with gr.Column(scale=2):
-                input_image = gr.Image(
-                    label="Image", type="filepath", image_mode="RGBA"
-                )
+                input_image = gr.Image(label="Image", type="filepath")
                 guidance_scale = gr.Number(label="Guidance Scale", value="7.5")
                 inference_steps = gr.Slider(
                     label="Inferece Steps", minimum=1, maximum=100, value=50
