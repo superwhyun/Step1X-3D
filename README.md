@@ -60,7 +60,7 @@ By simultaneously advancing data quality, algorithmic fidelity, and reproducibil
 |-----------------------------|-------------------------------|------------|------|
 | Step1X-3D-geometry| 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Geometry-1300m)    | 1.3B | 2025-05-13  | 
 | Step1X-3D-geometry-label  | 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Geometry-Label-1300m) | 1.3B | 2025-05-13|
-| Step1X-3D Texture       | 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step-1X-3D-Texture)    | 3.5B |2025-05-13|
+| Step1X-3D Texture       | 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Texture)    | 3.5B |2025-05-13|
 
 ## 3. Open filtered high quaily datasets 
 | Data source                       | Download link                   | Size       | Update date |                                                                                    
