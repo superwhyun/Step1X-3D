@@ -61,13 +61,14 @@ By simultaneously advancing data quality, algorithmic fidelity, and reproducibil
 | Step1X-3D-geometry| 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Geometry-1300m)    | 1.3B | 2025-05-13  | 
 | Step1X-3D-geometry-label  | 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Geometry-Label-1300m) | 1.3B | 2025-05-13|
 | Step1X-3D Texture       | 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Texture)    | 3.5B |2025-05-13|
-
+|Models in ModelScope |🤗 [ModelScope](https://www.modelscope.cn/models/stepfun-ai/Step1X-3D) | 6.1B | 2025-05-14|
 ## 3. Open filtered high quaily datasets 
 | Data source                       | Download link                   | Size       | Update date |                                                                                    
 |-----------------------------|-------------------------------|------------|------|
 | Objaverse| 🤖[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_320k.json)    | 320K |2025-05-13|
 | Objaverse-XL  | 🤖[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_xl_github_url_480k.json) | 480K |2025-05-13|
 | Assets for texture synthesis | 🤖[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_texture_30k.json) | 30K |2025-05-13|
+| Assets in ModelScope| 🤖[ModelScope](https://www.modelscope.cn/datasets/stepfun-ai/Step1X-3D-obj-data) | 830K |2025-05-14|
 
 Given the above high quality 3D assets, you can follow methods from [Dora](https://github.com/Seed3D/Dora/tree/main) to preprocess data for VAE and 3D DiT training, and from [MV-Adapter](https://github.com/huanngzh/MV-Adapter) for ig2mv training.
 ## 4. Dependencies and Installation
