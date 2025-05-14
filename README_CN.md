@@ -1,9 +1,16 @@
 <p align="left">
         <a href="README_CN.md">中文</a> &nbsp｜ &nbsp English&nbsp&nbsp 
 </p>
-<!-- <br><br> -->
+
 
 <h1 align="center"> Step1X-3D：面向高保真和可控的<br>纹理化3D资产生成</h1>
+
+<div align="center">
+  <a href=https://huggingface.co/spaces/stepfun-ai/Step1X-3D  target="_blank"><img src=https://img.shields.io/static/v1?label=Online%20Demo&message=HuggingFace&color=yellow></a>
+  <a href=https://huggingface.co/stepfun-ai/Step1X-3D target="_blank"><img src=https://img.shields.io/static/v1?label=Model&message=HuggingFace&color=yellow></a>
+  <a href=https://arxiv.org/abs/2505.07747 target="_blank"><img src=https://img.shields.io/static/v1?label=Tech%20Report&message=Arxiv&color=red></a>
+  <a href=https://stepfun-ai.github.io/Step1X-3D/ target="_blank"><img src= https://img.shields.io/static/v1?label=Project%20Page&message=Web&color=green></a>
+</div>
 
 <p align="center">
   <img src="assets/stepfun_illusions_logo.jpeg" width="100%">
@@ -15,13 +22,6 @@
 
 <div align="left">
 <p><b>Step1X-3D展示了生成具有高保真几何和多样纹理映射的3D资产的能力，同时保持了表面几何和纹理映射之间的出色对齐。从左到右，我们依次展示了：基础几何（无纹理），以及卡通风格、素描风格和照片级真实感的3D资产生成结果。</b></p>
-</div>
-
-<div align="left">
-  <a href=https://huggingface.co/spaces/stepfun-ai/Step1X-3D  target="_blank"><img src=https://img.shields.io/badge/%F0%9F%A4%97%20Demo-276cb4.svg height=22px></a>
-  <a href=https://huggingface.co/stepfun-ai/Step1X-3D target="_blank"><img src=https://img.shields.io/badge/%F0%9F%A4%97%20Models-d96902.svg height=22px></a>
-  <a href=https://arxiv.org/abs/2505.07747 target="_blank"><img src=https://img.shields.io/badge/Report-b5212f.svg?logo=arxiv height=22px></a>
-  <a href=https://stepfun-ai.github.io/Step1X-3D.github.io/ target="_blank"><img src= https://img.shields.io/badge/Page-bb8a2e.svg?logo=github height=22px></a>
 </div>
 
 ## 🔥🔥🔥 最新消息!!
