@@ -21,7 +21,7 @@
   <a href=https://huggingface.co/spaces/stepfun-ai/Step1X-3D  target="_blank"><img src=https://img.shields.io/badge/%F0%9F%A4%97%20Demo-276cb4.svg height=22px></a>
   <a href=https://huggingface.co/stepfun-ai/Step1X-3D target="_blank"><img src=https://img.shields.io/badge/%F0%9F%A4%97%20Models-d96902.svg height=22px></a>
   <a href=https://arxiv.org/abs/2505.07747 target="_blank"><img src=https://img.shields.io/badge/Report-b5212f.svg?logo=arxiv height=22px></a>
-  
+
 </div>
 
 ## 🔥🔥🔥 Latest News!!
@@ -101,6 +101,12 @@ cd ../../
 We reused custom_rasterizer and differentiable_renderer tools in [Hunyuan3D 2.0]((https://github.com/Tencent/Hunyuan3D-2)) for the texture baker, thanks to their open-source contribution.
 
 ## 5. Inference script
+
+|                                                  | VRAM Usage | Time for 50 steps |
+| ------------------------------------------------ | ---------- | ----------------- |
+| Step1X-3D-Geometry-1300m+Step1X-3D-Texture       | 27G        | 152 seconds       |
+| Step1X-3D-Geometry-Label-1300m+Step1X-3D-Texture | 29G        | 152 seconds       |
+
 We porvide the following example codes as tutorial to sequentially generate geometry and texture.
 ```python
 import torch

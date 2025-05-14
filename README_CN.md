@@ -99,6 +99,12 @@ cd ../../
 我们在纹理烘焙中重用了[Hunyuan3D 2.0]((https://github.com/Tencent/Hunyuan3D-2))中的custom_rasterizer和differentiable_renderer工具，感谢他们的开源贡献。
 
 ## 5. 推理脚本
+
+|                                                  | 显存占用 | 50 steps耗时 |
+| ------------------------------------------------ | -------- | ------------ |
+| Step1X-3D-Geometry-1300m+Step1X-3D-Texture       | 27G      | 152秒        |
+| Step1X-3D-Geometry-Label-1300m+Step1X-3D-Texture | 29G      | 152秒        |
+
 我们提供以下示例代码作为教程，以按顺序生成几何和纹理。
 ```python
 import torch
@@ -154,7 +160,7 @@ python inference.py
 ```
 python app.py
 ```
-或[huggingface网页直播](https://huggingface.co/spaces/stepfun-ai/Step1X-3D)
+或[huggingface网页demo](https://huggingface.co/spaces/stepfun-ai/Step1X-3D)
 
 ## 6. 训练脚本
 您可以选择一个配置文件进行训练，并修改脚本以支持多GPU训练或更多训练设置。
