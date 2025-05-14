@@ -120,7 +120,7 @@ class LabelEncoder(BaseLabelEncoder, ModelMixin):
                     symmetry_type_label_embeds.append(
                         self.embedding_table_symmetry_type(
                             torch.tensor(
-                                SYMMETRY_TYPE_MAPPING[label["symmetry"][0]]
+                                SYMMETRY_TYPE_MAPPING[label["symmetry"]]
                             ).to(get_device())
                         )
                     )
