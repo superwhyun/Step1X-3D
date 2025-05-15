@@ -17,8 +17,9 @@
 </p>
 
 <div align="center">
-  <video src="./assets/step1x-3d-video.mp4" width="100%"> </video>
+  <img src="./assets/step1x-3d-teaser.png" width="100%">
 </div>
+
 
 <div align="left">
 <p><b>Step1X-3D展示了生成具有高保真几何和多样纹理映射的3D资产的能力，同时保持了表面几何和纹理映射之间的出色对齐。从左到右，我们依次展示了：基础几何（无纹理），以及卡通风格、素描风格和照片级真实感的3D资产生成结果。</b></p>

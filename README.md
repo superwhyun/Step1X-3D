@@ -17,9 +17,8 @@
 </p>
 
 <div align="center">
-  <video src="./assets/step1x-3d-video.mp4" width="100%"> </video>
+  <img src="./assets/step1x-3d-teaser.png" width="100%">
 </div>
-
 
 <div align="left">
 <p><b>Step1X-3D demonstrates the capability to generate 3D assets with high-fidelity geometry and versatile texture maps, while maintaining exceptional alignment between surface geometry and texture mapping. From left to right, we sequentially present: the base geometry (untextured), followed by cartoon-style, sketch-style, and photorealistic 3D asset generation results.</b></p>
