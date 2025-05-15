@@ -206,10 +206,10 @@ Step1X-3D is licensed under the Apache License 2.0. You can find the license fil
 ## 9. Citation
 If you find our work helpful, please cite us
 ```
-@article{li2025step1x3dhighfidelitycontrollablegeneration,
-      title={Step1X-3D: Towards High-Fidelity and Controllable Generation of Textured 3D Assets}, 
-      author={Weiyu Li and Xuanyang Zhang and Zheng Sun and Di Qi and Hao Li and Wei Cheng and Weiwei Cai and Shihao Wu and Jiarui Liu and Zihao Wang and Xiao Chen and Feipeng Tian and Jianxiong Pan and Zeming Li and Gang Yu and Xiangyu Zhang and Daxin Jiang and Ping Tan},
-      journal={arXiv preprint arxiv:2505.07747}
-      year={2025}
+@article{li2025step1x,
+  title={Step1X-3D: Towards High-Fidelity and Controllable Generation of Textured 3D Assets},
+  author={Li, Weiyu and Zhang, Xuanyang and Sun, Zheng and Qi, Di and Li, Hao and Cheng, Wei and Cai, Weiwei and Wu, Shihao and Liu, Jiarui and Wang, Zihao and others},
+  journal={arXiv preprint arXiv:2505.07747},
+  year={2025}
 }
 ```
