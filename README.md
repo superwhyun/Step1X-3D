@@ -75,19 +75,25 @@ Given the above high quality 3D assets, you can follow methods from [Dora](https
 The dependencies configured according to the following instructions provide an environment equipped for both training and inference
 
 ### 4.1 Clone the repo
-```
-git clone https://github.com/stepfun-ai/Step1X-3D.git
+```bash
+git clone --depth 1 --branch main https://github.com/stepfun-ai/Step1X-3D.git
 cd Step1X-3D
 ```
+
+> Shallow clone is faster and does not require pulling the gh-pages branch.
+>
+> Use the `git fetch --unshallow` command to convert a shallow clone to a full clone.
+>
+> Use the `git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'` command to fetch all branches.
 ### 4.2 Create a new conda environment
-```
+```bash
 conda create -n step1x-3d python=3.10
 conda activate step1x-3d
 ```
 ### 4.3 Install the requrements
 We have checked the environment in cuda12.4 and you can install cuda12.4 by following [CUDA Toolkit install guidance](https://developer.nvidia.com/cuda-12-4-0-download-archive).
 
-```
+```bash
 pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu124
 pip install -r requirements.txt
 pip install torch-cluster -f https://data.pyg.org/whl/torch-2.5.1+cu124.html
@@ -153,12 +159,12 @@ textured_mesh.export("textured_mesh.glb")
 ```
 
 You can also run the the whole process by running
-```
+```bash
 python inference.py
 ```
 
 We also provide an interactive generation based on gradio with local deployment
-```
+```bash
 python app.py
 ```
  or [huggingface web live](https://huggingface.co/spaces/stepfun-ai/Step1X-3D)
@@ -166,25 +172,25 @@ python app.py
 ## 6. Training script
 You can select a configuration file for training and modify the scripts to support multi-GPU training or more training setting.
 ### 6.1 Train variational autoencoder
-```
+```bash
 # example of VAE config in path: Step1X-3D/configs/train-geometry-autoencoder
 CUDA_VISIBLE_DEVICES=0 python train.py --config $config --train --gpu 0
 ```
 
 ### 6.2 Train 3D native diffusion model from scratch
 
-```
+```bash
 # example of 3D diffusion config in path: Step1X-3D/configs/train-geometry-diffusiontrain-geometry-autoencoder
 CUDA_VISIBLE_DEVICES=0 python train.py --config $config --train --gpu 0
 ```
 ### 6.3 Train 3D native diffusion model with LoRA finetuning
 
-```
+```bash
 CUDA_VISIBLE_DEVICES=0 python train.py --config $config --train --gpu 0 system.use_lora=True
 ```
 ### 6.4 Train SD-XL based multi-view generation
 
-```
+```bash
 # example of 3D ig2mv config in Path: Step1X-3D/configs/
 train-texture-ig2mv
 # We adopt most training code for multi-view generation from MV-Adapter and thank for the nice work.
