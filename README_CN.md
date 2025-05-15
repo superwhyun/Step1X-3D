@@ -75,18 +75,26 @@
 
 ### 4.1 克隆仓库
 ```
-git clone https://github.com/stepfun-ai/Step1X-3D.git
+git clone --depth 1 --branch main https://github.com/stepfun-ai/Step1X-3D.git
 cd Step1X-3D
 ```
+
+> 浅克隆的速度更快，且无需拉取gh-pages分支
+>
+> 使用`git fetch --unshallow`命令可以将浅克隆转为完整克隆
+>
+> 使用`git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'`命令可以拉取全部分支
+
+
 ### 4.2 创建新的conda环境
-```
+```bash
 conda create -n step1x-3d python=3.10
 conda activate step1x-3d
 ```
 ### 4.3 安装要求
 我们在cuda12.4下检查了环境，您可以通过以下[CUDA Toolkit安装指南](https://developer.nvidia.com/cuda-12-4-0-download-archive)安装cuda12.4。
 
-```
+```bash
 pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu124
 pip install -r requirements.txt
 pip install torch-cluster -f https://data.pyg.org/whl/torch-2.5.1+cu124.html
@@ -152,13 +160,13 @@ textured_mesh.export("textured_mesh.glb")
 ```
 
 您还可以通过运行
-```
+```bash
 python inference.py
 ```
 来运行整个过程。
 
 我们还提供了基于gradio的交互式生成，支持本地部署
-```
+```bash
 python app.py
 ```
 或[huggingface网页demo](https://huggingface.co/spaces/stepfun-ai/Step1X-3D)
@@ -166,25 +174,25 @@ python app.py
 ## 6. 训练脚本
 您可以选择一个配置文件进行训练，并修改脚本以支持多GPU训练或更多训练设置。
 ### 6.1 训练 autoencoder
-```
+```bash
 # 路径：Step1X-3D/configs/train-geometry-autoencoder中的VAE配置示例
 CUDA_VISIBLE_DEVICES=0 python train.py --config $config --train --gpu 0
 ```
 
 ### 6.2 从头开始训练3D diffusion model
 
-```
+```bash
 # 路径：Step1X-3D/configs/train-geometry-diffusiontrain-geometry-autoencoder中的3D扩散配置示例
 CUDA_VISIBLE_DEVICES=0 python train.py --config $config --train --gpu 0
 ```
 ### 6.3 使用LoRA微调训练3D diffusion model
 
-```
+```bash
 CUDA_VISIBLE_DEVICES=0 python train.py --config $config --train --gpu 0 system.use_lora=True
 ```
 ### 6.4 训练基于SD-XL的多视角生成
 
-```
+```bash
 # 路径：Step1X-3D/configs/train-texture-ig2mv中的3D ig2mv配置示例
 # 我们从MV-Adapter采用大多数多视角生成的训练代码，感谢他们的出色工作。
 CUDA_VISIBLE_DEVICES=0 python train_ig2mv.py --config configs/train-texture-ig2mv/step1x3d_ig2mv_sdxl.yaml --train
