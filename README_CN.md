@@ -17,7 +17,7 @@
 </p>
 
 <div align="center">
-<img width="" alt="demo" src="assets/step1x-3d-teaser.png">
+  <video src="./assets/step1x-3d-video.mp4" width="100%"> </video>
 </div>
 
 <div align="left">
@@ -60,13 +60,13 @@
 | Step1X-3D-geometry| 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Geometry-1300m)    | 1.3B | 2025-05-13  | 
 | Step1X-3D-geometry-label  | 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Geometry-Label-1300m) | 1.3B | 2025-05-13|
 | Step1X-3D Texture       | 🤗 [Huggingface](https://huggingface.co/stepfun-ai/Step1X-3D/tree/main/Step1X-3D-Texture)    | 3.5B |2025-05-13|
-|Models in ModelScope |🤗 [ModelScope](https://www.modelscope.cn/models/stepfun-ai/Step1X-3D) | 6.1B | 2025-05-14|
+|Models in ModelScope |🤖 [ModelScope](https://www.modelscope.cn/models/stepfun-ai/Step1X-3D) | 6.1B | 2025-05-14|
 ## 3. 开放过滤的高质量数据集
 | 数据源                       | 下载链接                   | 大小       | 更新日期 |                                                                                    
 |-----------------------------|-------------------------------|------------|------|
-| Objaverse| 🤖[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_320k.json)    | 320K |2025-05-13|
-| Objaverse-XL| 🤖[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_xl_github_url_480k.json) | 480K |2025-05-13|
-| 纹理合成的资产 | 🤖[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_texture_30k.json) | 30K |2025-05-13|
+| Objaverse|🤗[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_320k.json)    | 320K |2025-05-13|
+| Objaverse-XL|🤗[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_xl_github_url_480k.json) | 480K |2025-05-13|
+| 纹理合成的资产 |🤗[Huggingface](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/blob/main/objaverse_texture_30k.json) | 30K |2025-05-13|
 | Assets in ModelScope| 🤖[ModelScope](https://www.modelscope.cn/datasets/stepfun-ai/Step1X-3D-obj-data) | 830K |2025-05-14|
 
 基于上述高质量3D资产，您可以按照[Dora](https://github.com/Seed3D/Dora/tree/main)中的方法预处理数据以进行VAE和3D DiT训练，并按照[MV-Adapter](https://github.com/huanngzh/MV-Adapter)进行ig2mv训练。
