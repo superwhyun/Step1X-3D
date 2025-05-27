@@ -97,6 +97,8 @@ We have checked the environment in cuda12.4 and you can install cuda12.4 by foll
 pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu124
 pip install -r requirements.txt
 pip install torch-cluster -f https://data.pyg.org/whl/torch-2.5.1+cu124.html
+pip install "git+https://github.com/facebookresearch/pytorch3d.git@stable"
+pip install kaolin==0.17.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.5.1_cu124.html
 
 cd step1x3d_texture/custom_rasterizer
 python setup.py install
