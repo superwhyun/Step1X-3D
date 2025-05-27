@@ -35,7 +35,7 @@ class Step1X3DTextureConfig:
         self.unet_model = None
         self.lora_model = None
         self.adapter_path = "stepfun-ai/Step1X-3D"
-        self.scheduler = None
+        self.scheduler = "ddpm"
         self.num_views = 6
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.dtype = torch.float16
@@ -59,6 +59,20 @@ class Step1X3DTextureConfig:
         self.texture_size = 2048
         self.bake_exp = 4
         self.merge_method = "fast"
+
+        # texture sync params
+        self.texture_sync_config = {
+            "texture_size": 1536,
+            "latent_size": 768//8,
+            "elevations": [0, 0, 0, 0, 90, -90],
+            "azimuths": [0, 90, 180, 270, 0, 0],
+            "texture_sync_ratio": 0.5,
+            "exp_end": 6.0,
+            "exp_start": 0,
+            "shuffle_background_change": 0.4,
+            "shuffle_background_end": 0.99,
+            "camera_distance": 1.8
+        }
 
 
 class Step1X3DTexturePipeline:
@@ -276,6 +290,7 @@ class Step1X3DTexturePipeline:
             negative_prompt=negative_prompt,
             cross_attention_kwargs={"scale": lora_scale},
             mesh=mesh_bp,
+            texture_sync_config=self.config.texture_sync_config,
             **pipe_kwargs,
         ).images
 
@@ -308,6 +323,10 @@ class Step1X3DTexturePipeline:
             texture, ori_trust_map = render.fast_bake_texture(
                 project_textures, project_weighted_cos_maps
             )
+        elif method == "poisson":
+            texture = poisson_blend(
+                project_textures, project_weighted_cos_maps, project_boundary_maps
+            )
         else:
             raise f"no method {method}"
         return texture, ori_trust_map > 1e-8
@@ -333,7 +352,7 @@ class Step1X3DTexturePipeline:
                 ]
             )
             remove_bg_fn = lambda x: self.remove_bg(
-                x, birefnet, transform_image, self.config.device
+                x, birefnet, transform_image, args.device
             )
         else:
             remove_bg_fn = None

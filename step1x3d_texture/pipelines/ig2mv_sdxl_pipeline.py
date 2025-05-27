@@ -51,6 +51,20 @@ from ..models.attention_processor import (
     DecoupledMVRowSelfAttnProcessor2_0,
     set_unet_2d_condition_attn_processor,
 )
+import random
+from ..texture_sync.project import UVProjection as UVP
+from ..texture_sync.step_sync import step_tex_sync
+from trimesh import Trimesh
+from torchvision.transforms import Compose, Resize, GaussianBlur, InterpolationMode
+from diffusers.utils import (
+	BaseOutput, 
+    numpy_to_pil,
+	pt_to_pil,
+	is_accelerate_available,
+	is_accelerate_version,
+	logging,
+	replace_example_docstring
+	)
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
@@ -69,6 +83,27 @@ def retrieve_latents(
     else:
         raise AttributeError("Could not access latents of provided encoder_output")
 
+
+@torch.no_grad()
+def composite_rendered_view(scheduler, backgrounds, foregrounds, masks, t):
+    composited_images = []
+    for i, (background, foreground, mask) in enumerate(zip(backgrounds, foregrounds, masks)):
+        if t > 0:
+            alphas_cumprod = scheduler.alphas_cumprod[t]
+            noise = torch.normal(0, 1, background.shape, device=background.device)
+            background = (1-alphas_cumprod) * noise + alphas_cumprod * background
+        composited = foreground * mask + background * (1-mask)
+        composited_images.append(composited)
+    composited_tensor = torch.stack(composited_images)
+    return composited_tensor
+
+
+@torch.no_grad()
+def encode_latents(vae, imgs):
+    imgs = (imgs-0.5)*2
+    latents = vae.encode(imgs).latent_dist.sample()
+    latents = vae.config.scaling_factor * latents
+    return latents
 
 class IG2MVSDXLPipeline(StableDiffusionXLPipeline, CustomAdapterMixin):
     def __init__(
@@ -309,6 +344,8 @@ class IG2MVSDXLPipeline(StableDiffusionXLPipeline, CustomAdapterMixin):
         # Image condition
         reference_image: Optional[PipelineImageInput] = None,
         reference_conditioning_scale: Optional[float] = 1.0,
+        mesh: Optional[Trimesh] = None,
+        texture_sync_config: Optional[dict] = None,
         **kwargs,
     ):
         r"""
@@ -556,6 +593,27 @@ class IG2MVSDXLPipeline(StableDiffusionXLPipeline, CustomAdapterMixin):
             latents,
         )
 
+        # texture patams init
+        texture_size = texture_sync_config["texture_size"]
+        latent_size = texture_sync_config["latent_size"]
+        elevations = texture_sync_config["elevations"]
+        azimuths = texture_sync_config["azimuths"]
+        texture_sync_ratio = texture_sync_config["texture_sync_ratio"]
+        camera_poses = [(elv, azim) for elv, azim in zip(elevations, azimuths)]
+        uvp = UVP(texture_size=texture_size, render_size=latent_size, sampling_mode="nearest", channels=4, device=self._execution_device)
+        uvp.load_mesh(mesh, scale_factor=1.0, autouv=True)
+        uvp.set_cameras_and_render_settings(camera_poses, centers=None, camera_distance=texture_sync_config["camera_distance"], scale=((1.0, 1.0, 1.0),))
+
+        latent_tex = uvp.set_noise_texture()
+        noise_views = uvp.render_textured_views()
+        foregrounds = [view[:-1] for view in noise_views]
+        masks = [view[-1:] for view in noise_views]
+   
+        if texture_sync_ratio>0:
+            composited_tensor = composite_rendered_view(self.scheduler, latents, foregrounds, masks, int(timesteps[0].cpu().item())+1)
+            latents = composited_tensor.type(latents.dtype)
+        uvp.to("cpu")
+
         # 6. Prepare extra step kwargs. TODO: Logic should ideally just be moved out of the pipeline
         extra_step_kwargs = self.prepare_extra_step_kwargs(generator, eta)
 
@@ -709,6 +767,36 @@ class IG2MVSDXLPipeline(StableDiffusionXLPipeline, CustomAdapterMixin):
             ).to(device=device, dtype=latents.dtype)
 
         self._num_timesteps = len(timesteps)
+
+
+        # texture sync params
+        exp_start = texture_sync_config["exp_start"]
+        exp_end = texture_sync_config["exp_end"]
+        shuffle_background_change = texture_sync_config["shuffle_background_change"]
+        shuffle_background_end = texture_sync_config["shuffle_background_end"]
+        num_timesteps = self.scheduler.config.num_train_timesteps
+    
+        uvp.to(self._execution_device)
+        color_constants = {"black": [-1, -1, -1], "white": [1, 1, 1], "maroon": [0, -1, -1],
+			"red": [1, -1, -1], "olive": [0, 0, -1], "yellow": [1, 1, -1],
+			"green": [-1, 0, -1], "lime": [-1 ,1, -1], "teal": [-1, 0, 0],
+			"aqua": [-1, 1, 1], "navy": [-1, -1, 0], "blue": [-1, -1, 1],
+			"purple": [0, -1 , 0], "fuchsia": [1, -1, 1]}
+        color_names = list(color_constants.keys())
+        background_colors = [random.choice(list(color_constants.keys())) for i in range(len(camera_poses))]
+        intermediate_results = []
+        self.upcast_vae()
+        self.vae.config.force_upcast = True
+        color_images = torch.FloatTensor([color_constants[name] for name in color_names]).reshape(-1,3,1,1).to(dtype=torch.float32, device=self._execution_device)
+        color_images = torch.ones(
+            (1,1,latent_size*8, latent_size*8), 
+            device=self._execution_device, 
+            dtype=torch.float32
+        ) * color_images
+        color_images = ((0.5*color_images)+0.5)
+        color_latents = encode_latents(self.vae, color_images).to(dtype=self.text_encoder_2.dtype)
+        color_latents = {color[0]:color[1] for color in zip(color_names, [latent for latent in color_latents])}	
+
         with self.progress_bar(total=num_inference_steps) as progress_bar:
             for i, t in enumerate(timesteps):
                 if self.interrupt:
@@ -768,9 +856,49 @@ class IG2MVSDXLPipeline(StableDiffusionXLPipeline, CustomAdapterMixin):
 
                 # compute the previous noisy sample x_t -> x_t-1
                 latents_dtype = latents.dtype
-                latents = self.scheduler.step(
-                    noise_pred, t, latents, **extra_step_kwargs, return_dict=False
-                )[0]
+
+                # texture sync
+                current_exp = ((exp_end-exp_start) * i / num_inference_steps) + exp_start
+                if t > (1-texture_sync_ratio)*num_timesteps:
+                    step_results = step_tex_sync(
+                        scheduler=self.scheduler, 
+                        uvp=uvp, 
+                        model_output=noise_pred, 
+                        timestep=t, 
+                        sample=latents, 
+                        texture=latent_tex,
+                        return_dict=True, 
+                        main_views=[], 
+                        exp= current_exp,
+                        **extra_step_kwargs
+                    )
+
+                    pred_original_sample = step_results["pred_original_sample"]
+                    latents = step_results["prev_sample"]
+                    latent_tex = step_results["prev_tex"]
+
+                    # Composit latent foreground with random color background
+                    background_latents = [color_latents[color] for color in background_colors]
+                    composited_tensor = composite_rendered_view(self.scheduler, background_latents, latents, masks, t)
+                    latents = composited_tensor.type(latents.dtype)
+
+                    intermediate_results.append((latents.to("cpu"), pred_original_sample.to("cpu")))
+                else:
+                    step_results = self.scheduler.step(noise_pred, t, latents, **extra_step_kwargs, return_dict=True)
+                    pred_original_sample = step_results["pred_original_sample"]
+                    latents = step_results["prev_sample"]
+                    latent_tex = None
+                    intermediate_results.append((latents.to("cpu"), pred_original_sample.to("cpu")))
+
+                # 2. Shuffle background colors; only black and white used after certain timestep
+                if (1-t/num_timesteps) < shuffle_background_change:
+                    background_colors = [random.choice(list(color_constants.keys())) for i in range(len(camera_poses))]
+                elif (1-t/num_timesteps) < shuffle_background_end:
+                    background_colors = [random.choice(["black","white"]) for i in range(len(camera_poses))]
+                else:
+                    background_colors = background_colors
+                del noise_pred
+
                 if latents.dtype != latents_dtype:
                     if torch.backends.mps.is_available():
                         # some platforms (eg. apple mps) misbehave due to a pytorch bug: https://github.com/pytorch/pytorch/pull/99272
