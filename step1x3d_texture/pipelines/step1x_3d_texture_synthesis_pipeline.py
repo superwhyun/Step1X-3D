@@ -323,10 +323,6 @@ class Step1X3DTexturePipeline:
             texture, ori_trust_map = render.fast_bake_texture(
                 project_textures, project_weighted_cos_maps
             )
-        elif method == "poisson":
-            texture = poisson_blend(
-                project_textures, project_weighted_cos_maps, project_boundary_maps
-            )
         else:
             raise f"no method {method}"
         return texture, ori_trust_map > 1e-8
@@ -352,7 +348,7 @@ class Step1X3DTexturePipeline:
                 ]
             )
             remove_bg_fn = lambda x: self.remove_bg(
-                x, birefnet, transform_image, args.device
+                x, birefnet, transform_image, self.config.device
             )
         else:
             remove_bg_fn = None
