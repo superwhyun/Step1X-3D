@@ -47,5 +47,5 @@ xatlas==0.0.10
 pybind11==2.13.6
 pygltflib==1.16.4
 kornia==0.8.0
-cupy==13.4.1
+cupy-cuda12x==13.4.1
 git+https://github.com/NVlabs/nvdiffrast.git
