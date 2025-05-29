@@ -49,3 +49,4 @@ pygltflib==1.16.4
 kornia==0.8.0
 cupy-cuda12x==13.4.1
 git+https://github.com/NVlabs/nvdiffrast.git
+git+https://github.com/facebookresearch/pytorch3d.git@stable

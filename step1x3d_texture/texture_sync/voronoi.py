@@ -13,12 +13,6 @@ x_dim = 512
 y_dim = 512
 noSeeds = 1024
 
-# diagram is represented as a 2d array where each element is
-# x coord of source * y_dim + y coord of source
-ping = cp.full((x_dim, y_dim), -1, dtype=int)
-pong = None
-
-
 import torch
 import time
 
@@ -78,26 +72,6 @@ def voronoi_solve(texture, mask, device="cuda"):
     return voronoi_texture
 
 
-def generateRandomSeeds(n):
-    """
-    Function to generate n random seeds.
-
-    @param n The number of seeds to generate.
-    """
-    global ping, pong
-
-    if n > x_dim * y_dim:
-        print("Error: Number of seeds greater than number of pixels.")
-        return
-
-    # take sample of cartesian product
-    coords = [(x, y) for x in range(x_dim) for y in range(y_dim)]
-    seeds = sample(coords, n)
-    for i in range(n):
-        x, y = seeds[i]
-        ping[x, y] = x * y_dim + y
-    pong = cp.copy(ping)
-
 
 displayKernel = cp.ElementwiseKernel(
     "int64 x", "int64 y", f"y = (x < 0) ? x : x % 103", "displayTransform"
@@ -153,7 +127,6 @@ voronoiKernel = cp.RawKernel(
 
 
 def JFAVoronoiDiagram(ping, pong):
-    # global ping, pong
     # compute initial step size
     x_dim, y_dim = ping.shape
     step = max(x_dim, y_dim) // 2
