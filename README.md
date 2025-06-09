@@ -25,6 +25,8 @@
 </div>
 
 ## 🔥🔥🔥 Latest News!!
+* June 9, 2025: 👋 We release the multi-views render code for texture generation model training in path "Step1X-3D/data/ig2mv/render"!
+* May 27, 2025: 👋 We release muti-view generation model with texture sync module!
 * May 13, 2025: 👋 Step1X-3D online demo is available on huggingface-enjoy yourself with generated 3D assets! [Huggingface web live](https://huggingface.co/spaces/stepfun-ai/Step1X-3D)
 * May 13, 2025: 👋 We release the 800K uids of high quality 3D assets (excluding self-collected assets) obtained with our rigorous data curation pipeline for both training 3D geometry and synthesis. [Huggingface dataset](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/tree/main)
 * May 13, 2025: 👋 We have also released the training code of both Step1X-3D geometry generation and texture synthesis. 

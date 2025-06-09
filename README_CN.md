@@ -26,6 +26,8 @@
 </div>
 
 ## 🔥🔥🔥 最新消息!!
+* 2025年6月9日: 👋 我们在“Step1X-3D/data/ig2mv/render”路径下发布了用于纹理生成模型训练的多视图渲染代码！
+* 2025年5月27日: 👋 我们发布了带有纹理同步模块的多视图生成模型！
 * 2025年5月13日：👋 Step1X-3D在线演示现已在huggingface上可用，尽情享受生成的3D资产！[Huggingface网页直播](https://huggingface.co/spaces/stepfun-ai/Step1X-3D)
 * 2025年5月13日：👋 我们发布了通过严格数据整理流程获得的800K高质量3D资产（不包括自收集资产）的uid，用于3D几何训练和合成。 [Huggingface数据集](https://huggingface.co/datasets/stepfun-ai/Step1X-3D-obj-data/tree/main)
 * 2025年5月13日：👋 我们还发布了Step1X-3D几何生成和纹理合成的训练代码。
