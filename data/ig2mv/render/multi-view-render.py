@@ -1,3 +1,5 @@
+# scripts modified fron https://github.com/huanngzh/bpy-renderer
+
 import os
 import json
 import argparse

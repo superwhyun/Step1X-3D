@@ -1,3 +1,4 @@
+# scripts reused from https://github.com/huanngzh/MV-Adapter
 import os
 from typing import Dict, Optional, Union
 

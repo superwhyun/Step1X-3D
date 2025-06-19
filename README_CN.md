@@ -204,7 +204,7 @@ CUDA_VISIBLE_DEVICES=0 python train_ig2mv.py --config configs/train-texture-ig2m
 ```
 
 ## 7. 致谢
-我们要感谢以下项目：[FLUX](https://github.com/black-forest-labs/flux)，[DINOv2](https://github.com/facebookresearch/dinov2)，[MV-Adapter](https://github.com/huanngzh/MV-Adapter)，[CLAY](https://arxiv.org/abs/2406.13897)，[Michelango](https://github.com/NeuralCarver/Michelangelo)，[CraftsMan3D](https://github.com/wyysf-98/CraftsMan3D)，[TripoSG](https://github.com/VAST-AI-Research/TripoSG)，[Dora](https://github.com/Seed3D/Dora)，[Hunyuan3D 2.0](https://github.com/Tencent/Hunyuan3D-2)，[FlashVDM](https://github.com/Tencent/FlashVDM)，[diffusers](https://github.com/huggingface/diffusers)和[HuggingFace](https://huggingface.co)，感谢他们开放的探索和贡献。
+我们要感谢以下项目：[FLUX](https://github.com/black-forest-labs/flux)，[DINOv2](https://github.com/facebookresearch/dinov2)，[MV-Adapter](https://github.com/huanngzh/MV-Adapter)，[CLAY](https://arxiv.org/abs/2406.13897)，[Michelango](https://github.com/NeuralCarver/Michelangelo)，[CraftsMan3D](https://github.com/wyysf-98/CraftsMan3D)，[TripoSG](https://github.com/VAST-AI-Research/TripoSG)，[Dora](https://github.com/Seed3D/Dora)，[Hunyuan3D 2.0](https://github.com/Tencent/Hunyuan3D-2)，[FlashVDM](https://github.com/Tencent/FlashVDM)，[diffusers](https://github.com/huggingface/diffusers)和[HuggingFace](https://huggingface.co)，感谢他们开放的探索和贡献。更具体地说，在纹理生成方面：我们基于[MV-Adapter](https://github.com/huanngzh/MV-Adapter) 的部分代码实现多视角生成，基于[bpy-render](https://github.com/huanngzh/bpy-render)的部分代码实现多视角渲染，基于[Hunyuan 3D 2.0](https://github.com/Tencent-Hunyuan/Hunyuan3D-2)的部分代码实现纹理烘焙。
 
 ## 8. 许可
 Step1X-3D根据Apache License 2.0许可。您可以在相应的github和HuggingFace存储库中找到许可文件。

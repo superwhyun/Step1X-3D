@@ -1,3 +1,5 @@
+# scripts reused from https://github.com/huanngzh/MV-Adapter
+
 import math
 from typing import Callable, List, Optional, Union
 
