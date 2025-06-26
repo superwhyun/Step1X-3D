@@ -26,6 +26,7 @@
 </div>
 
 ## 🔥🔥🔥 最新消息!!
+* 2025年6月26日: 👋 我们在“Step1X-3D/data/watertight_and_sampling.py”路径下发布了使用深度检测和winding number来获得水密mesh的数据处理代码！
 * 2025年6月9日: 👋 我们在“Step1X-3D/data/ig2mv/render”路径下发布了用于纹理生成模型训练的多视图渲染代码！
 * 2025年5月27日: 👋 我们发布了带有纹理同步模块的多视图生成模型！
 * 2025年5月13日：👋 Step1X-3D在线演示现已在huggingface上可用，尽情享受生成的3D资产！[Huggingface网页直播](https://huggingface.co/spaces/stepfun-ai/Step1X-3D)
@@ -44,6 +45,7 @@
 - [x] 训练代码
 - [x] 高质量3D资产的uid
 - [x] 在线演示（在huggingface上使用gradio部署）
+- [x] 几何数据处理（包括使用深度检测和winding number来获得水密mesh，点云采样）
 - [ ] 更多可控模型，如多视角、边界框和骨架条件
 - [ ] ComfyUI
 
