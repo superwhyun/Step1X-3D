@@ -25,6 +25,7 @@
 </div>
 
 ## 🔥🔥🔥 Latest News!!
+* June 26, 2025: 👋 We release the data preprocessing for shape VAE and diffusion, including advanced watertight method using depth_test and winding_number proposed by [CraftsMan3D](https://github.com/wyysf-98/CraftsMan3D) in path "Step1X-3D/data/watertight_and_sampling.py"! 
 * June 9, 2025: 👋 We release the multi-views render code for texture generation model training in path "Step1X-3D/data/ig2mv/render"!
 * May 27, 2025: 👋 We release muti-view generation model with texture sync module!
 * May 13, 2025: 👋 Step1X-3D online demo is available on huggingface-enjoy yourself with generated 3D assets! [Huggingface web live](https://huggingface.co/spaces/stepfun-ai/Step1X-3D)
@@ -43,6 +44,7 @@
 - [x] Training code
 - [x] Uid of high quality 3D assets
 - [x] Online demo (gradio deployed on huggingface)
+- [x] Mesh preprocessing (including watertight using depth_test and winding_number, sampling)
 - [ ] More controllable models, like conditioned with multi-view, bounding-box and skeleton
 - [ ] ComfyUI
 
