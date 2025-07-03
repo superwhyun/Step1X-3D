@@ -222,6 +222,7 @@ class Step1X3DTexturePipeline:
         negative_prompt="watermark, ugly, deformed, noisy, blurry, low contrast",
         lora_scale=1.0,
         device="cuda",
+        texture_sync_config=None,
     ):
         # Prepare cameras
         cameras = get_orthogonal_camera(
@@ -290,7 +291,7 @@ class Step1X3DTexturePipeline:
             negative_prompt=negative_prompt,
             cross_attention_kwargs={"scale": lora_scale},
             mesh=mesh_bp,
-            texture_sync_config=self.config.texture_sync_config,
+            texture_sync_config=texture_sync_config or self.config.texture_sync_config,
             **pipe_kwargs,
         ).images
 
@@ -356,6 +357,12 @@ class Step1X3DTexturePipeline:
         if isinstance(mesh, trimesh.Scene):
             mesh = mesh.to_geometry()
 
+        # Update texture_sync_config to match actual height/width
+        height, width = 384, 384 # 이거는 config 파일로 빼야 한다. 나중에 하자. 
+        updated_texture_sync_config = self.config.texture_sync_config.copy()
+        updated_texture_sync_config["texture_size"] = height
+        updated_texture_sync_config["latent_size"] = height // 8
+
         # multi-view generation pipeline
         images, pos_images, normal_images, reference_image, textured_mesh, mesh_bp = (
             self.run_ig2mv_pipeline(
@@ -364,8 +371,8 @@ class Step1X3DTexturePipeline:
                 num_views=self.config.num_views,
                 text=self.config.text,
                 image=image,
-                height=768,
-                width=768,
+                height=height,
+                width=width,
                 num_inference_steps=self.config.num_inference_steps,
                 guidance_scale=self.config.guidance_scale,
                 seed= seed if seed is not None else self.config.seed,
@@ -374,6 +381,7 @@ class Step1X3DTexturePipeline:
                 negative_prompt=self.config.negative_prompt,
                 device=self.config.device,
                 remove_bg_fn=remove_bg_fn,
+                texture_sync_config=updated_texture_sync_config,
             )
         )
 
