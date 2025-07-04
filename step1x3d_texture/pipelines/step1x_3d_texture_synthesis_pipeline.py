@@ -358,7 +358,7 @@ class Step1X3DTexturePipeline:
             mesh = mesh.to_geometry()
 
         # Update texture_sync_config to match actual height/width
-        height, width = 384, 384 # 이거는 config 파일로 빼야 한다. 나중에 하자. 
+        height, width = 480, 480 # 이거는 config 파일로 빼야 한다. 나중에 하자.  원래는 768x768 .. 512는 OOM
         updated_texture_sync_config = self.config.texture_sync_config.copy()
         updated_texture_sync_config["texture_size"] = height
         updated_texture_sync_config["latent_size"] = height // 8

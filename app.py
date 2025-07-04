@@ -6,6 +6,7 @@ import trimesh
 import argparse
 import numpy as np
 import gradio as gr
+import gc
 from step1x3d_geometry.models.pipelines.pipeline import Step1X3DGeometryPipeline
 from step1x3d_texture.pipelines.step1x_3d_texture_synthesis_pipeline import (
     Step1X3DTexturePipeline,
@@ -16,6 +17,11 @@ from step1x3d_geometry.models.pipelines.pipeline_utils import reduce_face, remov
 def generate_func(
     input_image_path, guidance_scale, inference_steps, max_facenum, symmetry, edge_type
 ):
+    # Load geometry model
+    geometry_model = Step1X3DGeometryPipeline.from_pretrained(
+        "stepfun-ai/Step1X-3D", subfolder=args.geometry_model
+    ).to("cuda")
+    
     if "Label" in args.geometry_model:
         out = geometry_model(
             input_image_path,
@@ -39,13 +45,25 @@ def generate_func(
     geometry_mesh = out.mesh[0]
     geometry_mesh.export(geometry_save_path)
 
+    # Clean up geometry model from VRAM
+    del geometry_model, out
+    torch.cuda.empty_cache()
+    gc.collect()
+
+    # Load texture model
+    texture_model = Step1X3DTexturePipeline.from_pretrained("stepfun-ai/Step1X-3D", subfolder=args.texture_model)
+    
     geometry_mesh = remove_degenerate_face(geometry_mesh)
     geometry_mesh = reduce_face(geometry_mesh)
     textured_mesh = texture_model(input_image_path, geometry_mesh)
     textured_save_path = f"{args.cache_dir}/{save_name}-textured.glb"
     textured_mesh.export(textured_save_path)
 
+    # Clean up texture model from VRAM
+    del texture_model, textured_mesh
     torch.cuda.empty_cache()
+    gc.collect()
+    
     print("Generate finish")
     return geometry_save_path, textured_save_path
 
@@ -64,12 +82,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     os.makedirs(args.cache_dir, exist_ok=True)
-
-    geometry_model = Step1X3DGeometryPipeline.from_pretrained(
-        "stepfun-ai/Step1X-3D", subfolder=args.geometry_model
-    ).to("cuda")
-
-    texture_model = Step1X3DTexturePipeline.from_pretrained("stepfun-ai/Step1X-3D", subfolder=args.texture_model)
 
     with gr.Blocks(title="Step1X-3D demo") as demo:
         gr.Markdown("# Step1X-3D")
