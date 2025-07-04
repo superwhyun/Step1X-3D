@@ -1,0 +1,33 @@
+# Inference Configuration for Step1X-3D
+# This file contains settings for texture synthesis resolution and other inference parameters
+
+# GPU mode configuration
+gpu_mode:
+  type: "singlegpu"  # Options: "singlegpu" or "multigpu"
+  # Device assignments for multigpu mode
+  geometry_device: "cuda:1"  # GPU for geometry generation
+  texture_device: "cuda:0"   # GPU for texture synthesis
+  
+# Texture synthesis resolution settings
+texture:
+  width: 1024
+  height: 1024
+  
+# Geometry generation settings
+geometry:
+  guidance_scale: 7.5
+  num_inference_steps: 50
+  octree_resolution: 384
+  max_facenum: 400000
+  
+# Memory management settings
+memory:
+  clear_vram_after_geometry: true
+  clear_cache_frequency: 1  # Clear cache every N generations
+  
+# Model paths (can be overridden)
+models:
+  geometry_model: "stepfun-ai/Step1X-3D"
+  geometry_subfolder: "Step1X-3D-Geometry-1300m"
+  texture_model: "stepfun-ai/Step1X-3D"
+  texture_subfolder: "Step1X-3D-Texture"

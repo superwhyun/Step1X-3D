@@ -85,7 +85,10 @@ class LabelEncoder(BaseLabelEncoder, ModelMixin):
                     pretrained_model_ckpt[k.replace("label_condition.", "")] = v
             self.load_state_dict(pretrained_model_ckpt, strict=True)
 
-    def encode_label(self, labels: List[dict]) -> torch.FloatTensor:
+    def encode_label(self, labels: List[dict], device=None) -> torch.FloatTensor:
+        # Use provided device or fall back to target_device
+        target_device = device if device is not None else target_device
+        
         tpose_label_embeds = []
         symmetry_type_label_embeds = []
         geometry_quality_label_embeds = []
@@ -94,60 +97,60 @@ class LabelEncoder(BaseLabelEncoder, ModelMixin):
             if "pose" in label.keys():
                 if label["pose"] is None or label["pose"] == "":
                     tpose_label_embeds.append(
-                        torch.zeros(self.cfg.hidden_size).detach().to(get_device())
+                        torch.zeros(self.cfg.hidden_size).detach().to(target_device)
                     )
                 else:
                     tpose_label_embeds.append(
                         self.embedding_table_symmetry_type(
                             torch.tensor(POSE_MAPPING[label["pose"][0]]).to(
-                                get_device()
+                                target_device
                             )
                         )
                     )
             else:
                 tpose_label_embeds.append(
                     self.embedding_table_tpose(
-                        torch.tensor(DEFAULT_POSE).to(get_device())
+                        torch.tensor(DEFAULT_POSE).to(target_device)
                     )
                 )
 
             if "symmetry" in label.keys():
                 if label["symmetry"] is None or label["symmetry"] == "":
                     symmetry_type_label_embeds.append(
-                        torch.zeros(self.cfg.hidden_size).detach().to(get_device())
+                        torch.zeros(self.cfg.hidden_size).detach().to(target_device)
                     )
                 else:
                     symmetry_type_label_embeds.append(
                         self.embedding_table_symmetry_type(
                             torch.tensor(
                                 SYMMETRY_TYPE_MAPPING[label["symmetry"]]
-                            ).to(get_device())
+                            ).to(target_device)
                         )
                     )
             else:
                 symmetry_type_label_embeds.append(
                     self.embedding_table_symmetry_type(
-                        torch.tensor(DEFAULT_SYMMETRY_TYPE).to(get_device())
+                        torch.tensor(DEFAULT_SYMMETRY_TYPE).to(target_device)
                     )
                 )
 
             if "geometry_type" in label.keys():
                 if label["geometry_type"] is None or label["geometry_type"] == "":
                     geometry_quality_label_embeds.append(
-                        torch.zeros(self.cfg.hidden_size).detach().to(get_device())
+                        torch.zeros(self.cfg.hidden_size).detach().to(target_device)
                     )
                 else:
                     geometry_quality_label_embeds.append(
                         self.embedding_table_geometry_quality(
                             torch.tensor(
                                 GEOMETRY_QUALITY_MAPPING[label["geometry_type"][0]]
-                            ).to(get_device())
+                            ).to(target_device)
                         )
                     )
             else:
                 geometry_quality_label_embeds.append(
                     self.embedding_table_geometry_quality(
-                        torch.tensor(DEFAULT_GEOMETRY_QUALITY).to(get_device())
+                        torch.tensor(DEFAULT_GEOMETRY_QUALITY).to(target_device)
                     )
                 )
 

@@ -164,6 +164,17 @@ class Step1X3DTexturePipeline:
 
         return pipe
 
+    def to(self, device):
+        """Move pipeline to specified device"""
+        # Update config device
+        self.config.device = str(device)
+        
+        # Move internal pipeline components
+        self.ig2mv_pipe.to(device=device, dtype=self.config.dtype)
+        self.ig2mv_pipe.cond_encoder.to(device=device, dtype=self.config.dtype)
+        
+        return self
+
     def remove_bg(self, image, net, transform, device):
         image_size = image.size
         input_images = transform(image).unsqueeze(0).to(device)
@@ -336,6 +347,17 @@ class Step1X3DTexturePipeline:
 
     @torch.no_grad()
     def __call__(self, image, mesh, remove_bg=True, seed=2025):
+        # Move mesh to texture device if it's on a different device
+        if hasattr(mesh, 'vertices') and torch.is_tensor(mesh.vertices):
+            if str(mesh.vertices.device) != str(self.config.device):
+                print(f"Moving mesh from {mesh.vertices.device} to {self.config.device}")
+                # Backup old mesh and move to new device
+                old_mesh = mesh  
+                mesh = mesh.to(self.config.device)
+                # Clean up old device memory
+                del old_mesh
+                torch.cuda.empty_cache()
+        
         if remove_bg:
             birefnet = AutoModelForImageSegmentation.from_pretrained(
                 "ZhengPeng7/BiRefNet", trust_remote_code=True

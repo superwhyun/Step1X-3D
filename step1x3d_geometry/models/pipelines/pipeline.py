@@ -177,7 +177,7 @@ class Step1X3DGeometryPipeline(
     def encode_label(self, label, device, num_meshes_per_prompt):
         dtype = next(self.label_encoder.parameters()).dtype
 
-        label_embeds = self.label_encoder.encode_label([label])
+        label_embeds = self.label_encoder.encode_label([label], device=device)
         label_embeds = label_embeds.repeat_interleave(num_meshes_per_prompt, dim=0)
 
         uncond_label_embeds = self.label_encoder.empty_label_embeds.repeat(
