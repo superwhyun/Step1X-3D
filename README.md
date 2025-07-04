@@ -24,6 +24,36 @@
 <p><b>Step1X-3D demonstrates the capability to generate 3D assets with high-fidelity geometry and versatile texture maps, while maintaining exceptional alignment between surface geometry and texture mapping. From left to right, we sequentially present: the base geometry (untextured), followed by cartoon-style, sketch-style, and photorealistic 3D asset generation results.</b></p>
 </div>
 
+## 🚀 RTX 4090 Optimization & Multi-GPU Support
+This fork includes the following modifications to make Step1X-3D work efficiently on RTX 4090 and support multi-GPU setups:
+
+- **RTX 4090 Compatibility**: Optimized memory usage and reduced texture resolution to run on RTX 4090 GPUs
+- **Multi-GPU Support**: Separated texture and rendering models for dual-GPU configurations
+- **Sequential Fallback**: Maintained backward compatibility for single-GPU sequential execution
+- **Reduced Texture Resolution**: Lowered generated texture image size to fit within GPU memory constraints
+
+### Usage
+
+#### Single GPU Mode (RTX 4090 Compatible)
+For single GPU setups, models are loaded sequentially to minimize memory usage:
+
+```bash
+python app.py --mode singlegpu
+```
+
+#### Multi-GPU Mode (Parallel Processing)
+For dual-GPU setups, geometry and texture models are loaded on separate GPUs for faster processing:
+
+```bash
+python app.py --mode multigpu
+```
+
+**Multi-GPU Configuration:**
+- **GPU 0**: Texture synthesis model
+- **GPU 1**: Geometry generation model
+- Models remain loaded in memory for faster subsequent generations
+- Requires at least 2 GPUs to run in multi-GPU mode
+
 ## 🔥🔥🔥 Latest News!!
 * June 26, 2025: 👋 We release the data preprocessing for shape VAE and diffusion, including advanced watertight method using depth_test and winding_number proposed by [CraftsMan3D](https://github.com/wyysf-98/CraftsMan3D) in path "Step1X-3D/data/watertight_and_sampling.py"! 
 * June 9, 2025: 👋 We release the multi-views render code for texture generation model training in path "Step1X-3D/data/ig2mv/render"!
