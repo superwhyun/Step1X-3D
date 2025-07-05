@@ -1,28 +1,6 @@
-<p align="left">
-        <a href="README_CN.md">中文</a> &nbsp｜ &nbsp English&nbsp&nbsp 
-</p>
 
 
-<h1 align="center"> Step1X-3D: Towards High-Fidelity and Controllable<br>Generation of Textured 3D Assets</h1>
 
-<div align="center">
-  <a href=https://huggingface.co/spaces/stepfun-ai/Step1X-3D  target="_blank"><img src=https://img.shields.io/static/v1?label=Online%20Demo&message=HuggingFace&color=yellow></a>
-  <a href=https://huggingface.co/stepfun-ai/Step1X-3D target="_blank"><img src=https://img.shields.io/static/v1?label=Model&message=HuggingFace&color=yellow></a>
-  <a href=https://arxiv.org/abs/2505.07747 target="_blank"><img src=https://img.shields.io/static/v1?label=Tech%20Report&message=Arxiv&color=red></a>
-  <a href=https://stepfun-ai.github.io/Step1X-3D/ target="_blank"><img src= https://img.shields.io/static/v1?label=Project%20Page&message=Web&color=green></a>
-</div>
-
-<p align="center">
-  <img src="assets/stepfun_illusions_logo.jpeg" width="100%">
-</p>
-
-<div align="center">
-  <img src="./assets/step1x-3d-teaser.png" width="100%">
-</div>
-
-<div align="left">
-<p><b>Step1X-3D demonstrates the capability to generate 3D assets with high-fidelity geometry and versatile texture maps, while maintaining exceptional alignment between surface geometry and texture mapping. From left to right, we sequentially present: the base geometry (untextured), followed by cartoon-style, sketch-style, and photorealistic 3D asset generation results.</b></p>
-</div>
 
 ## 🚀 RTX 4090 Optimization & Multi-GPU Support
 This fork includes the following modifications to make Step1X-3D work efficiently on RTX 4090 and support multi-GPU setups:
@@ -53,6 +31,37 @@ python app.py --mode multigpu
 - **GPU 1**: Geometry generation model
 - Models remain loaded in memory for faster subsequent generations
 - Requires at least 2 GPUs to run in multi-GPU mode
+
+
+<br><br><br>
+<hr>
+
+
+<p align="left">
+        <a href="README_CN.md">中文</a> &nbsp｜ &nbsp English&nbsp&nbsp 
+</p>
+
+<h1 align="center"> Step1X-3D: Towards High-Fidelity and Controllable<br>Generation of Textured 3D Assets</h1>
+
+<div align="center">
+  <a href=https://huggingface.co/spaces/stepfun-ai/Step1X-3D  target="_blank"><img src=https://img.shields.io/static/v1?label=Online%20Demo&message=HuggingFace&color=yellow></a>
+  <a href=https://huggingface.co/stepfun-ai/Step1X-3D target="_blank"><img src=https://img.shields.io/static/v1?label=Model&message=HuggingFace&color=yellow></a>
+  <a href=https://arxiv.org/abs/2505.07747 target="_blank"><img src=https://img.shields.io/static/v1?label=Tech%20Report&message=Arxiv&color=red></a>
+  <a href=https://stepfun-ai.github.io/Step1X-3D/ target="_blank"><img src= https://img.shields.io/static/v1?label=Project%20Page&message=Web&color=green></a>
+</div>
+
+<p align="center">
+  <img src="assets/stepfun_illusions_logo.jpeg" width="100%">
+</p>
+
+<div align="center">
+  <img src="./assets/step1x-3d-teaser.png" width="100%">
+</div>
+
+<div align="left">
+<p><b>Step1X-3D demonstrates the capability to generate 3D assets with high-fidelity geometry and versatile texture maps, while maintaining exceptional alignment between surface geometry and texture mapping. From left to right, we sequentially present: the base geometry (untextured), followed by cartoon-style, sketch-style, and photorealistic 3D asset generation results.</b></p>
+</div>
+
 
 ## 🔥🔥🔥 Latest News!!
 * June 26, 2025: 👋 We release the data preprocessing for shape VAE and diffusion, including advanced watertight method using depth_test and winding_number proposed by [CraftsMan3D](https://github.com/wyysf-98/CraftsMan3D) in path "Step1X-3D/data/watertight_and_sampling.py"! 
